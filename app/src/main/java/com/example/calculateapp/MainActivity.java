@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,12 +61,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //情報の塊
         Bundle bundle=intent.getExtras();
         //かたまりから取り出す
-        numberOfQuestion= bundle.getInt("key");
+        numberOfQuestion= bundle.getInt("numberOfQestion");
         numberOfRemaining=numberOfQuestion;
         textViewRemaining.setText(String.valueOf(numberOfQuestion));
+        Log.d("LifeCycle:Main","#OnCreate");
 
         question();
 
+
+
+    }
+    protected void onStart() {
+        super.onStart();
+        Log.d("LifeCycle:Main","#OnStart");
+    }
+    protected void onPause() {
+        super.onPause();
+        Log.d("LifeCycle:Main","#OnPause");
+    }
+    protected void onResume() {
+        super.onResume();
+        Log.d("LifeCycle:Main","#OnResume");
+    }
+    protected void onStop() {
+        super.onStop();
+        Log.d("LifeCycle:Main","#OnStop");
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("LifeCycle:Main","#onDestroy");
     }
 
     @Override
@@ -128,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAnswerCheck.setEnabled(true);
         //残り問題数を計算して表示
 
-
-
         random=new Random();
         intQuestionLeft=random.nextInt(100)+1;
         intQuestionRight=random.nextInt(100)+1;
@@ -154,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         buttonAnswerCheck.setEnabled(false);
         buttonQuestion.setEnabled(true);
-        buttonBack.setEnabled(false);
-
+       // buttonBack.setEnabled(false);
+        buttonBack.setEnabled(true);
 
         numberOfRemaining-=1;
         textViewRemaining.setText(String.valueOf(numberOfRemaining));
@@ -202,8 +224,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        startActivity(intent);
 
         Intent intent = new Intent();
-        intent.putExtra("key", point);
+        Log.d("Life:Main","BackToMenu");
+        intent.putExtra("Point", point);
         setResult(RESULT_OK, intent);
+        finish();
     }
 
 }
